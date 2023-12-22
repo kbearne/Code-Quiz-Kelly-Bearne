@@ -1,3 +1,4 @@
+// quiz questions, choices and answers are stored in an array of objects
 const maineCoonQuiz = [
     {
         questionTitle: "From where does the Maine Coon breed originate?",
