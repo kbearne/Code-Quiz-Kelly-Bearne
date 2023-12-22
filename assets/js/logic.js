@@ -18,7 +18,6 @@
   // Their choice is compared to the correct answer as stored in the question's object
   // If correct, tell them
   // If incorrect, tell them AND subtract time from the timer
-  // Optional: play a sound for correct or incorrect
   // Either way, the question disappears after a few seconds and the next question appears
 
 // After the last question:
