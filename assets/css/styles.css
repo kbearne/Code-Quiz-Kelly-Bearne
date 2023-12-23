@@ -95,3 +95,8 @@ li:nth-child(odd) {
   top: 10px;
   right: 10px;
 }
+
+/* Apply border radius to round main page image (index.html) */
+#image {
+  border-radius: 50%;
+}

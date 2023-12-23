@@ -3,16 +3,20 @@ const startButton = document.getElementById('start');
 const timerSpan = document.getElementById('time');
 const finalScoreSpan = document.getElementById('final-score');
 const imageEl = document.getElementById('image');
+
 // variables for screens
 const startScreenDiv = document.getElementById('start-screen');
 const questionsScreenDiv = document.getElementById('questions');
 const endScreenDiv = document.getElementById('end-screen');
 const feedbackDiv = document.getElementById('feedback');
+
 // variable for countdown timer function
 var timeInterval = setInterval;
+
 // variables for game state
 let start = false;
 let finalScore = 0;
+
 // array of image URLs
 const imageUrls = [
     './assets/images/cats/cats (1).jpg',
@@ -72,6 +76,9 @@ function endCountdown() {
 
 // start quiz (display first question)
 function startQuiz() {
+    // variables
+    const length = maineCoonQuiz.length;
+
     // hide start screen and show questions screen
     startScreenDiv.classList.toggle("hide");
     questionsScreenDiv.classList.toggle("show");
@@ -94,18 +101,16 @@ function startQuiz() {
     });
 
     // once user selects an answer, store it and load next question
-        // event listener for click?
-        // 
+        // event listener for click
+        // compare users answer with maineCoonQuiz[i].answer
+        // runningScore++ if a match, and tell them
+        // otherwise continue (no score increment), tell them and subtract 10 seconds from the timer
+        // new question appears a few seconds later
 
-// For each question:
-    // User clicks an answer
-    // Their choice is compared to the correct answer as stored in the question's object
-    // If correct, tell them
-    // If incorrect, tell them AND subtract time from the timer
-    // Either way, the question disappears after a few seconds and the next question appears
+    // load next questions
 
     /*
-    for (let i = 0; i < maineCoonQuiz.length; i++) {
+    for (let i = 0; i < length; i++) {
         questionTitle.innerText = maineCoonQuiz[0].questionTitle;
     }
     */
@@ -124,13 +129,16 @@ function endQuiz() {
     endCountdown();
 
     // allow user to enter their initials
+
 }
 
-// User submits form
-  // Initials and score get stored in local storage
-  // User is taken to the high scores page
-  // High scores are listed, sorted highest to lowest
-  // User has option to take the quiz again
+// Uuer submits form
+function submitForm() {
+    // Initials and score get stored in local storage
+    // User is taken to the high scores page
+    // High scores are listed, sorted highest to lowest
+    // User has option to take the quiz again
+}
 
 // event listener for start button press
 startButton.addEventListener('click', function() {
