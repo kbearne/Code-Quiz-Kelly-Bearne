@@ -1,13 +1,15 @@
 // variables for elements
 const startButton = document.getElementById('start');
 const timerSpan = document.getElementById('time');
+const finalScoreSpan = document.getElementById('final-score');
 // variables for screens
 const startScreenDiv = document.getElementById('start-screen');
 const questionsScreenDiv = document.getElementById('questions');
 const endScreenDiv = document.getElementById('end-screen');
 const feedbackDiv = document.getElementById('feedback');
-
+// variables for game state
 let start = false;
+let finalScore = 0;
 
 // countdown function (called by start button being clicked)
 function countdown() {
@@ -44,9 +46,16 @@ function startQuiz() {
     // display first question choices
     maineCoonQuiz[0].choices.forEach(choice => {
         const choiceEl = document.createElement("p");
-        choiceEl.textContent = choice;
+        const checkboxEl = document.createElement("input");
+        checkboxEl.type = "checkbox";
+        choiceEl.appendChild(checkboxEl);
+        choiceEl.appendChild(document.createTextNode(choice));
         choicesContainer.appendChild(choiceEl);
     });
+
+    // once user selects an answer, store it and load next question
+        // event listener for click?
+        // 
 
 // For each question:
     // User clicks an answer
@@ -62,13 +71,18 @@ function startQuiz() {
     */
 }
 
-// end quiz (display end screen)
+// end quiz after last question (display end screen)
 function endQuiz() {
-// After the last question:
-  // Timer stops
-  // Question disappears
-  // Form appears for user to enter their initials
-  // Display their score
+    // stop timer
+
+    // hide questions screen and show end screen
+    questionsScreenDiv.classList.toggle("hide");
+    endScreenDiv.classList.toggle("show");
+
+    // display final score
+    finalScoreSpan.innerText = finalScore
+
+    // allow user to enter their initials
 }
 
 // User submits form
