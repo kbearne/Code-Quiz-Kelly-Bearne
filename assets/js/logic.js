@@ -2,6 +2,7 @@
 const startButton = document.getElementById('start');
 const timerSpan = document.getElementById('time');
 const finalScoreSpan = document.getElementById('final-score');
+const imageEl = document.getElementById('image');
 // variables for screens
 const startScreenDiv = document.getElementById('start-screen');
 const questionsScreenDiv = document.getElementById('questions');
@@ -12,6 +13,24 @@ var timeInterval = setInterval;
 // variables for game state
 let start = false;
 let finalScore = 0;
+// array of image URLs
+const imageUrls = [
+    './assets/images/cats/cats (1).jpg',
+    './assets/images/cats/cats (2).jpg',
+    './assets/images/cats/cats (3).jpg',
+    './assets/images/cats/cats (4).jpg',
+    './assets/images/cats/cats (5).jpg',
+    './assets/images/cats/cats (6).jpg',
+    './assets/images/cats/cats (7).jpg',
+    './assets/images/cats/cats (8).jpg',
+];
+
+// generate a random image (get path from imageUrls array) and populate image element on page with it
+function generateImage() {
+    const imageIndex = Math.floor(Math.random () * imageUrls.length);
+    return imageUrls[imageIndex];
+}
+imageEl.src = generateImage();
 
 // countdown function (called by start button being clicked)
 function countdown() {
