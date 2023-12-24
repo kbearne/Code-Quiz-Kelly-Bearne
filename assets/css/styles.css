@@ -59,8 +59,9 @@ li:nth-child(odd) {
 }
 
 .wrapper {
-  margin: 100px auto 0 auto;
+  margin: auto;
   max-width: 600px;
+  text-align: center;
 }
 
 .hide {
