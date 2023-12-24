@@ -110,11 +110,19 @@ function endQuiz() {
     // display final score
     finalScoreSpan.innerText = finalScore
 
-    // allow user to enter their initials (score together with score in local storage)
+    // allow user to enter their initials
+    // store score together with user initials in local storage)
+    localStorage.setItem('finalScore', finalScore);
+    // localStorage.setItem('userInitials', userInitials)
+
+    // store score together with user initials in high scores
 
     // take user to highscores page
+    //window.location.href = '/assets/pages/highscores.html';
+
     // high scores are sorted, highest to lowest
-    // user has the option to take thw quiz again
+
+    // user has the option to take the quiz again
 
 }
 
