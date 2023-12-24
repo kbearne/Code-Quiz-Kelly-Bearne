@@ -29,49 +29,62 @@ const imageUrls = [
     './assets/images/cats/cats (8).jpg',
 ];
 
-// generate a random image (get path from imageUrls array) and populate image element on page with it
+// generate a random image for quiz questions (get path from imageUrls array) and populate image element on page with it
 function generateImage() {
-    const imageIndex = Math.floor(Math.random () * imageUrls.length);
+    const imageIndex = Math.floor(Math.random() * imageUrls.length);
     return imageUrls[imageIndex];
 }
 imageEl.src = generateImage();
 
 // countdown function (called by start button being clicked)
 function countdown() {
-    // set initial timer value to 60 seconds
-    timeLeft = 60;
+    // set initial timer value to 20 seconds
+    timeLeft = 20;
 
     // start timer countdown
-    timeInterval = setInterval(function() {
+    timeInterval = setInterval(function () {
         timeLeft--;
         timerSpan.innerText = timeLeft;
 
         // if countdown goes to 0 and quiz is not complete
         if (timeLeft === 0) {
-            // ask the user if they want to try again
-            let tryAgain = confirm("Sorry, time has run out, you lost! Do you want to try again?");
-            // run end countdown function
-            endCountdown();
-
-            // if the user wants to try again; reload quiz, else take the user back to the start page
-            if (tryAgain) {
-                // TODO: not loading first question
-                startQuiz();
-            } else {
-                alert("Thank you for playing");
-                startScreenDiv.classList.toggle("show");
-                // TODO: still showing first question
-                questionsScreenDiv.classList.toggle("hide");
-            }
+            // run function to handle the end of the quiz
+            timeRunOut();
         }
     }, 1000);
-};
+}
 
-// end the countdown and clear it
-function endCountdown() {
+// function to handle the end of the quiz
+function timeRunOut() {
+    // ask the user if they want to try again
+    alert(`Sorry, time has run out! You got ${finalScore} questions correct`);
+    // run end countdown function
+    endQuiz();
+}
+
+// end quiz (display end screen)
+function endQuiz() {
+    // end the countdown and clear it
     start = false;
     clearInterval(timeInterval);
-    // go back to start screen
+
+    // hide questions screen and show end screen
+    questionsScreenDiv.classList.remove("show");
+    endScreenDiv.classList.add("show");
+
+    // display final score
+    finalScoreSpan.innerText = finalScore
+
+    // allow user to enter their initials
+
+}
+
+// Uuer submits form
+function submitForm() {
+    // Initials and score get stored in local storage
+    // User is taken to the high scores page
+    // High scores are listed, sorted highest to lowest
+    // User has option to take the quiz again
 }
 
 // start quiz (display first question)
@@ -91,58 +104,42 @@ function startQuiz() {
     questionTitle.innerText = maineCoonQuiz[0].questionTitle;
 
     // display first question choices
-    maineCoonQuiz[0].choices.forEach(choice => {
+    maineCoonQuiz[0].choices.forEach((choice, index) => {
         const choiceEl = document.createElement("p");
         const checkboxEl = document.createElement("input");
         checkboxEl.type = "checkbox";
         choiceEl.appendChild(checkboxEl);
         choiceEl.appendChild(document.createTextNode(choice));
         choicesContainer.appendChild(choiceEl);
+
+        // event listener for answer selection: listen for checkbox click and assign user answer to the userAnswer variable
+        if (index === 0) {
+            checkboxEl.addEventListener('click', function () {
+                let userAnswer = checkboxEl.checked;
+                console.log(choice);
+            });
+        }
     });
-
-    // once user selects an answer, store it and load next question
-        // event listener for click
-        // compare users answer with maineCoonQuiz[i].answer
-        // runningScore++ if a match, and tell them
-        // otherwise continue (no score increment), tell them and subtract 10 seconds from the timer
-        // new question appears a few seconds later
-
-    // load next questions
-
-    /*
-    for (let i = 0; i < length; i++) {
-        questionTitle.innerText = maineCoonQuiz[0].questionTitle;
-    }
-    */
-}
-
-// end quiz after last question (display end screen)
-function endQuiz() {
-    // hide questions screen and show end screen
-    questionsScreenDiv.classList.toggle("hide");
-    endScreenDiv.classList.toggle("show");
-
-    // display final score
-    finalScoreSpan.innerText = finalScore
-
-    // end countdown
-    endCountdown();
-
-    // allow user to enter their initials
-
-}
-
-// Uuer submits form
-function submitForm() {
-    // Initials and score get stored in local storage
-    // User is taken to the high scores page
-    // High scores are listed, sorted highest to lowest
-    // User has option to take the quiz again
 }
 
 // event listener for start button press
-startButton.addEventListener('click', function() {
+startButton.addEventListener('click', function () {
     start = true;
     countdown();
     startQuiz();
 });
+
+// once user selects an answer, store it and load next question
+// event listener for click
+// compare users answer (userAnswer) with maineCoonQuiz[i].answer
+// runningScore++ if a match, and tell them
+// otherwise continue (no score increment), tell them and subtract 10 seconds from the timer
+// new question appears a few seconds later
+
+// load next questions
+
+/*
+for (let i = 0; i < length; i++) {
+    questionTitle.innerText = maineCoonQuiz[0].questionTitle;
+}
+*/
