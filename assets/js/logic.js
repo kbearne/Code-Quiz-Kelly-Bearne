@@ -36,6 +36,41 @@ function generateImage() {
 }
 imageEl.src = generateImage();
 
+// start quiz (display first question)
+function startQuiz() {
+    // variables
+    const length = maineCoonQuiz.length;
+
+    // hide start screen and show questions screen
+    startScreenDiv.classList.add("hide");
+    questionsScreenDiv.classList.add("show");
+
+    // variables for elements
+    const questionTitle = document.getElementById('question-title');
+    const choicesContainer = document.getElementById('choices');
+
+    // display first question title
+    questionTitle.innerText = maineCoonQuiz[0].questionTitle;
+
+    // display first question choices
+    maineCoonQuiz[0].choices.forEach((choice, index) => {
+        const choiceEl = document.createElement("p");
+        const checkboxEl = document.createElement("input");
+        checkboxEl.type = "checkbox";
+        choiceEl.appendChild(checkboxEl);
+        choiceEl.appendChild(document.createTextNode(choice));
+        choicesContainer.appendChild(choiceEl);
+
+        // event listener for answer selection: listen for checkbox click and assign user answer to the userAnswer variable
+        if (index === 0) {
+            checkboxEl.addEventListener('click', function () {
+                let userAnswer = checkboxEl.checked;
+                console.log(choice);
+            });
+        }
+    });
+}
+
 // countdown function (called by start button being clicked)
 function countdown() {
     // set initial timer value to 20 seconds
@@ -75,51 +110,12 @@ function endQuiz() {
     // display final score
     finalScoreSpan.innerText = finalScore
 
-    // allow user to enter their initials
+    // allow user to enter their initials (score together with score in local storage)
 
-}
+    // take user to highscores page
+    // high scores are sorted, highest to lowest
+    // user has the option to take thw quiz again
 
-// Uuer submits form
-function submitForm() {
-    // Initials and score get stored in local storage
-    // User is taken to the high scores page
-    // High scores are listed, sorted highest to lowest
-    // User has option to take the quiz again
-}
-
-// start quiz (display first question)
-function startQuiz() {
-    // variables
-    const length = maineCoonQuiz.length;
-
-    // hide start screen and show questions screen
-    startScreenDiv.classList.toggle("hide");
-    questionsScreenDiv.classList.toggle("show");
-
-    // variables for elements
-    const questionTitle = document.getElementById('question-title');
-    const choicesContainer = document.getElementById('choices');
-
-    // display first question title
-    questionTitle.innerText = maineCoonQuiz[0].questionTitle;
-
-    // display first question choices
-    maineCoonQuiz[0].choices.forEach((choice, index) => {
-        const choiceEl = document.createElement("p");
-        const checkboxEl = document.createElement("input");
-        checkboxEl.type = "checkbox";
-        choiceEl.appendChild(checkboxEl);
-        choiceEl.appendChild(document.createTextNode(choice));
-        choicesContainer.appendChild(choiceEl);
-
-        // event listener for answer selection: listen for checkbox click and assign user answer to the userAnswer variable
-        if (index === 0) {
-            checkboxEl.addEventListener('click', function () {
-                let userAnswer = checkboxEl.checked;
-                console.log(choice);
-            });
-        }
-    });
 }
 
 // event listener for start button press
