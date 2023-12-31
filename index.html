@@ -1,68 +1,75 @@
 <!DOCTYPE html>
 <html lang="en-gb">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Maine Coonundrum Quiz</title>
 
-    <!-- stylesheet references -->
-    <link rel="stylesheet" href="./assets/css/styles.css" />
-    <!-- credit to https://www.favicon.cc/?action=icon&file_id=910289 for favicon -->
-    <link href="./assets/images/favicon.ico" rel="icon" type="image/x-icon">
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Maine Coonundrum Quiz</title>
 
-  <body>
-    <div id="highscores-link" class="scores"><a href="./assets/pages/highscores.html">View Highscores</a></div>
+  <!-- stylesheet references -->
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+  <!-- credit to https://www.favicon.cc/?action=icon&file_id=910289 for favicon -->
+  <link href="./assets/images/favicon.ico" rel="icon" type="image/x-icon">
+</head>
 
-    <div class="timer">Time: <span id="time">0</span></div>
+<body>
+  <div id="highscores-link" class="scores"><a href="./assets/pages/highscores.html">View Highscores</a></div>
 
-    <div class="wrapper">
-      <div id="start-screen" class="start">
-        <h1>Maine Coonundrum: A Purr-plexing Quiz of Feline Greatness</h1>
-        <!-- cat photo -->
-        <img src="./assets/images/cats/cats (5).jpg" class="image" alt="Picture of a Maine Coon cat" height="300px" width="300px" />
-        <p>
-          Welcome to the 'Maine Coonundrum' quiz! Whether you're a cat enthusiast or just curious, this quiz is a mix of fun facts and amusing anecdotes. Get ready for a purr-fectly casual exploration of these majestic felines.
-        </p>
-        <p>
-          Try to answer the following questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds! Let's jump in!
-        </p>
-        <button id="start">Start Quiz</button>
-      </div>
+  <div class="timer">Time: <span id="time">0</span></div>
 
-      <div id="questions" class="hide">
-        <!-- randomly generated cat photo -->
-        <img src="" id="image" class="image" alt="Picture of a Maine Coon cat" height="300px" width="300px" />
-        <h2 id="question-title"></h2>
-        <div id="choices" class="choices"></div>
-      </div>
-
-      <div id="end-screen" class="hide">
-        <h2>All done!</h2>
-        <p>Your final score is <span id="final-score"></span>.</p>
-        <p>
-          Enter initials: <input type="text" id="initials" max="3" />
-          <button id="submit">Submit</button>
-        </p>
-      </div>
-
-      <div id="feedback" class="feedback hide"></div>
+  <div class="wrapper">
+    <div id="start-screen" class="start">
+      <h1>Maine Coonundrum: A Purr-plexing Quiz of Feline Greatness</h1>
+      <!-- cat photo -->
+      <img src="./assets/images/cats/cats (5).jpg" class="image" alt="Picture of a Maine Coon cat" height="300px"
+        width="300px" />
+      <p>
+        Welcome to the 'Maine Coonundrum' quiz! Whether you're a cat enthusiast or just curious, this quiz is a mix of
+        fun facts and amusing anecdotes. Get ready for a purr-fectly casual exploration of these majestic felines.
+      </p>
+      <p>
+        Try to answer the following questions within the time limit. Keep in mind that incorrect answers will penalize
+        your score/time by ten seconds! Let's jump in!
+      </p>
+      <button id="start">Start Quiz</button>
     </div>
 
-    <script src="./assets/js/questions.js"></script>
-    <script src="./assets/js/logic.js"></script>
+    <div id="questions" class="hide">
+      <!-- randomly generated cat photo -->
+      <img src="" id="image" class="image" alt="Picture of a Maine Coon cat" height="300px" width="300px" />
+      <h2 id="question-title"></h2>
+      <div id="choices" class="choices"></div>
+    </div>
 
-    <script>
-const highscoresLink = document.getElementById('highscores-link');
+    <div id="end-screen" class="hide">
+      <h2>All done!</h2>
+      <p>Your final score is <span id="final-score"></span>.</p>
+      <p>
+        Enter initials: <input type="text" id="initials" max="3" />
+        <button id="submit">Submit</button>
+      </p>
+    </div>
 
-highscoresLink.addEventListener('click', function (event) {
-  // prevent the default behavior of the link
-  event.preventDefault();
+    <div id="feedback" class="feedback hide"></div>
+  </div>
 
-  // redirect to the highscores page
-  window.location.href = './assets/pages/highscores.html';
-});
-    </script>
-  </body>
+  <!-- script references -->
+  <script src="./assets/js/questions.js"></script>
+  <script src="./assets/js/logic.js"></script>
+
+  <!-- dynamically update the highscores URL to display he latest highscores -->
+  <script>
+    const highscoresLink = document.getElementById('highscores-link');
+
+    highscoresLink.addEventListener('click', function (event) {
+      // prevent the default behavior of the link
+      event.preventDefault();
+
+      // redirect to the highscores page
+      window.location.href = './assets/pages/highscores.html';
+    });
+  </script>
+</body>
+
 </html>
