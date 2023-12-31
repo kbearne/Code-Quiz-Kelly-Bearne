@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <div class="scores"><a href="./assets/pages/highscores.html">View Highscores</a></div>
+    <div id="highscores-link" class="scores"><a href="./assets/pages/highscores.html">View Highscores</a></div>
 
     <div class="timer">Time: <span id="time">0</span></div>
 
@@ -52,5 +52,17 @@
 
     <script src="./assets/js/questions.js"></script>
     <script src="./assets/js/logic.js"></script>
+
+    <script>
+const highscoresLink = document.getElementById('highscores-link');
+
+highscoresLink.addEventListener('click', function (event) {
+  // prevent the default behavior of the link
+  event.preventDefault();
+
+  // redirect to the highscores page
+  window.location.href = './assets/pages/highscores.html';
+});
+    </script>
   </body>
 </html>

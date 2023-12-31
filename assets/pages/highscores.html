@@ -1,26 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Highscores</title>
 
-    <link rel="stylesheet" href="../css/styles.css" />
-    <!-- credit to https://www.favicon.cc/?action=icon&file_id=910289 for favicon -->
-    <link href="../images/favicon.ico" rel="icon" type="image/x-icon">
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Highscores</title>
 
-  <body>
-    <div class="wrapper">
-      <h1>Highscores</h1>
-      <img src="../images//cats/cats (3).jpg" class="image" alt="Picture of a Maine Coon cat" height="300px" width="300px" />
-      <ol id="highscores"></ol>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <!-- credit to https://www.favicon.cc/?action=icon&file_id=910289 for favicon -->
+  <link href="../images/favicon.ico" rel="icon" type="image/x-icon">
+</head>
 
-      <a href="../../index.html"><button>Go Back</button></a>
-      <button id="clear">Clear Highscores</button>
-    </div>
+<body>
+  <div class="wrapper">
+    <h1>Highscores</h1>
+    <img src="../images//cats/cats (3).jpg" class="image" alt="Picture of a Maine Coon cat" height="300px"
+      width="300px" />
+    <ul id="highscores"></ul>
 
-    <script src="../js/questions.js"></script>
-  </body>
+    <a href="../../index.html"><button>Go Back</button></a>
+    <button id="clear">Clear Highscores</button>
+  </div>
+
+  <script src="../js/questions.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const highScoresElement = document.getElementById('highscores');
+
+      // try to retrieve highScores from local storage
+      const storedHighScores = localStorage.getItem('highScores');
+
+      if (storedHighScores) {
+        try {
+          const highScores = JSON.parse(storedHighScores);
+          displayHighScores(highScores);
+        } catch (error) {
+          console.error("Error parsing stored highScores:", error);
+        }
+      } else {
+        console.error("Error: 'highScores' not found in local storage.");
+      }
+    });
+
+    function displayHighScores(highScores) {
+      const highScoresElement = document.getElementById('highscores');
+      highScores.forEach((entry, index) => {
+        const listItemEl = document.createElement('li');
+        listItemEl.textContent = `Score ${index + 1}: ${entry.initial} - ${entry.score}`;
+        highScoresElement.appendChild(listItemEl);
+      });
+    }
+
+    const clearButton = document.getElementById('clear');
+
+    // event listener for clear highscores button press
+    if (clearButton) {
+      clearButton.addEventListener('click', function () {
+        // Clear high scores from local storage
+        localStorage.removeItem('highScores');
+
+        // clear high scores displayed on the page
+        const highScoresElement = document.getElementById('highscores');
+        highScoresElement.innerHTML = '';
+      });
+    }
+  </script>
+
+</body>
+
 </html>
