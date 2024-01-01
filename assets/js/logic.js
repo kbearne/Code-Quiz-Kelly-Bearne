@@ -12,19 +12,20 @@ const questionsScreenDiv = document.getElementById('questions');
 const endScreenDiv = document.getElementById('end-screen');
 const feedbackDiv = document.getElementById('feedback');
 
-// variables for countdown timer function
+// variables for countdown timer
 var timeInterval = setInterval;
 var timeLeft = 0;
-let finalScore = 0;
-let userInitials = "";
 
 // variables for game state
+let finalScore = 0;
+let userInitials = "";
 let start = false;
-
-// variable for highscore data
 let existingHighScoresData = [];
+const highScores = [
+    { initial: 'KB', score: 0 },
+]
 
-// array of image URLs
+// array of image URLs (to generate random images for the quiz questions)
 const imageUrls = [
     './assets/images/cats/cats (1).jpg',
     './assets/images/cats/cats (2).jpg',
@@ -36,30 +37,17 @@ const imageUrls = [
     './assets/images/cats/cats (8).jpg',
 ];
 
-// array of high scores
-const highScores = [
-    { initial: 'KB', score: 0 },
-]
-
-// generate a random image for quiz questions (get path from imageUrls array) and populate image element on page with it
+// generate a random image for each quiz question (get path from imageUrls array) and populate image element on page with it
 function generateImage() {
     const imageIndex = Math.floor(Math.random() * imageUrls.length);
     return imageUrls[imageIndex];
 }
 imageEl.src = generateImage();
 
-// TODO:
-// once user selects an answer:
-// compare userAnswer with maineCoonQuiz[i].answer
-// alert them if wrong or right and:
-// if correct increment finalScore
-// if wrong deduct 10 seconds from timer
-// load new question a few seconds later
-
 // countdown function (called by start button being clicked)
 function countdown() {
     // set initial timer value to 20 seconds
-    timeLeft = 20;
+    timeLeft = 60;
 
     // start timer countdown
     timeInterval = setInterval(function () {
@@ -68,6 +56,8 @@ function countdown() {
 
         // if countdown goes to 0 and quiz is not complete
         if (timeLeft === 0) {
+            // ensure 0 is displayed on screen
+            timerSpan.innerText = "0";
             // run function to handle the end of the quiz
             timeRunOut();
         }
@@ -82,61 +72,83 @@ function timeRunOut() {
     endQuiz();
 }
 
-// start quiz
-// MOVE FIRST QUESTION TO NEW FUNCTION?
 function startQuiz() {
     // variables
     const length = maineCoonQuiz.length;
     let userAnswer = "";
+    let currentQuestionIndex = 0;
 
     // hide start screen and show questions screen
     startScreenDiv.classList.add("hide");
     questionsScreenDiv.classList.add("show");
 
-    // variables for elements
-    const questionTitle = document.getElementById('question-title');
-    const choicesContainer = document.getElementById('choices');
+    function displayQuestion() {
+        // Check if all questions have been answered
+        if (currentQuestionIndex >= length) {
+            // If all questions answered, end the quiz
+            endQuiz();
+            return;
+        }
 
-    // display the first question title
-    questionTitle.innerText = maineCoonQuiz[0].questionTitle;
+        // variables for elements
+        const questionTitle = document.getElementById('question-title');
+        const choicesContainer = document.getElementById('choices');
 
-    // display the first question
-    maineCoonQuiz[0].choices.forEach((choice, index) => {
-        // create the question elements dynamically
-        const choiceEl = document.createElement("p");
-        const radioEl = document.createElement("input");
-        radioEl.type = "radio";
-        radioEl.name = "answer";
-        choiceEl.appendChild(radioEl);
-        choiceEl.appendChild(document.createTextNode(choice));
-        choicesContainer.appendChild(choiceEl);
+        // display the current question title
+        questionTitle.innerText = maineCoonQuiz[currentQuestionIndex].questionTitle;
 
-        // event listener for answer choice - when a radio button is clicked
-        radioEl.addEventListener('click', function () {
-            // userAnswer variable is populated when a radio button is clicked
-            userAnswer = choice;
-            console.log(userAnswer);
-            // disable all radio buttons after the first click
-            disableRadioButtons();
+        // clear previous choices
+        choicesContainer.innerHTML = "";
 
-            // tell the user if correct or not; if the answer is correct then increment the final score, if incorrect then deduct 10 seconds from the timer
-            if (userAnswer === maineCoonQuiz[0].answer) {
-                finalScore++;
-                alert("Well done, that was correct!");
-            } else {
-                timeLeft = timeLeft - 10;
-                alert("Sorry, that was incorrect! 10 seconds have been deducted from the timer!");
-            }
+        // display the current question
+        maineCoonQuiz[currentQuestionIndex].choices.forEach((choice, index) => {
+            // create the question elements dynamically
+            const choiceEl = document.createElement("p");
+            const radioEl = document.createElement("input");
+            radioEl.type = "radio";
+            radioEl.name = "answer";
+            choiceEl.appendChild(radioEl);
+            choiceEl.appendChild(document.createTextNode(choice));
+            choicesContainer.appendChild(choiceEl);
+
+            // event listener for answer choice - when a radio button is clicked
+            radioEl.addEventListener('click', function () {
+                // userAnswer variable is populated when a radio button is clicked
+                userAnswer = choice;
+                console.log(userAnswer);
+                // disable all radio buttons after the first click
+                disableRadioButtons();
+
+                // tell the user if correct or not; if the answer is correct then increment the final score, if incorrect then deduct 10 seconds from the timer
+                if (userAnswer === maineCoonQuiz[currentQuestionIndex].answer) {
+                    finalScore++;
+                    alert("Well done, that was correct!");
+                } else {
+                    timeLeft = timeLeft - 10;
+                    alert("Sorry, that was incorrect! 10 seconds have been deducted from the timer!");
+                    if (timeLeft <= 0) {
+                        timeRunOut();
+                    }
+                }
+
+                // Move to the next question
+                currentQuestionIndex++;
+                // Display the next question
+                displayQuestion();
+            });
         });
-    });
 
-    function disableRadioButtons() {
-        const radioButtons = document.querySelectorAll('input[name="answer"]');
-        // disable all radio buttons after first click
-        radioButtons.forEach(button => {
-            button.disabled = true;
-        });
+        function disableRadioButtons() {
+            const radioButtons = document.querySelectorAll('input[name="answer"]');
+            // disable all radio buttons after first click
+            radioButtons.forEach(button => {
+                button.disabled = true;
+            });
+        }
     }
+
+    // Start displaying questions
+    displayQuestion();
 }
 
 // end quiz (display end screen)
