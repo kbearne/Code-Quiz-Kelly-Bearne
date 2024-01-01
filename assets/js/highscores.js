@@ -1,6 +1,8 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const highScoresElement = document.getElementById('highscores');
+// variables for elements
+const clearButton = document.getElementById('clear'),
+highScoresElement = document.getElementById('highscores');
 
+document.addEventListener('DOMContentLoaded', function () {
     // Try to retrieve highScores from local storage
     const storedHighScores = localStorage.getItem('highScores');
 
@@ -17,15 +19,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function displayHighScores(highScores) {
-    const highScoresElement = document.getElementById('highscores');
     highScores.forEach((entry, index) => {
         const listItemEl = document.createElement('li');
         listItemEl.textContent = `Score ${index + 1}: ${entry.initial} - ${entry.score}`;
         highScoresElement.appendChild(listItemEl);
     });
 }
-
-const clearButton = document.getElementById('clear');
 
 // event listener for clear highscores button press
 if (clearButton) {
@@ -34,7 +33,6 @@ if (clearButton) {
         localStorage.removeItem('highScores');
 
         // Clear high scores displayed on the page
-        const highScoresElement = document.getElementById('highscores');
         highScoresElement.innerHTML = '';
     });
 }

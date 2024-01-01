@@ -1,26 +1,26 @@
 // variables for elements
-const startButton = document.getElementById('start');
-const submitButton = document.getElementById('submit');
-const timerSpan = document.getElementById('time');
-const finalScoreSpan = document.getElementById('final-score');
-const imageEl = document.getElementById('image');
-const highScoreEl = document.getElementById('highscores');
+const startButton = document.getElementById('start'),
+    submitButton = document.getElementById('submit'),
+    timerSpan = document.getElementById('time'),
+    finalScoreSpan = document.getElementById('final-score'),
+    imageEl = document.getElementById('image'),
+    highScoreEl = document.getElementById('highscores');
 
 // variables for screens
-const startScreenDiv = document.getElementById('start-screen');
-const questionsScreenDiv = document.getElementById('questions');
-const endScreenDiv = document.getElementById('end-screen');
-const feedbackDiv = document.getElementById('feedback');
+const startScreenDiv = document.getElementById('start-screen'),
+    questionsScreenDiv = document.getElementById('questions'),
+    endScreenDiv = document.getElementById('end-screen'),
+    feedbackDiv = document.getElementById('feedback');
 
 // variables for countdown timer
-var timeInterval = setInterval;
-var timeLeft = 0;
+var timeInterval = setInterval,
+    timeLeft = 0;
 
 // variables for game state
-let finalScore = 0;
-let userInitials = "";
-let start = false;
-let existingHighScoresData = [];
+let finalScore = 0,
+    userInitials = "",
+    start = false,
+    existingHighScoresData = [];
 const highScores = [
     { initial: 'KB', score: 0 },
 ]
@@ -37,7 +37,7 @@ const imageUrls = [
     './assets/images/cats/cats (8).jpg',
 ];
 
-// generate a random image for each quiz question (get path from imageUrls array) and populate image element on page with it
+// generate a random image for each quiz question (get path from imageUrls array) and populate image element on index.html with it
 function generateImage() {
     const imageIndex = Math.floor(Math.random() * imageUrls.length);
     return imageUrls[imageIndex];
@@ -46,53 +46,50 @@ imageEl.src = generateImage();
 
 // countdown function (called by start button being clicked)
 function countdown() {
-    // set initial timer value to 20 seconds
-    timeLeft = 60;
+    // set initial timer value to 90 seconds
+    timeLeft = 90;
 
-    // start timer countdown
+    // start timer countdown (counts in seconds)
     timeInterval = setInterval(function () {
         timeLeft--;
         timerSpan.innerText = timeLeft;
 
-        // if countdown goes to 0 and quiz is not complete
+        // if countdown goes to 0 and quiz is not complete then show timeleft as 0 on the page and run the timeRunout function
         if (timeLeft === 0) {
-            // ensure 0 is displayed on screen
             timerSpan.innerText = "0";
-            // run function to handle the end of the quiz
             timeRunOut();
         }
     }, 1000);
 }
 
-// function to handle the end of the quiz
+// handle the end of the quiz - alert the user and run the endQuiz function
 function timeRunOut() {
-    // prompt the user
     alert(`Sorry, time has run out! You got ${finalScore} questions correct`);
-    // run end countdown function
     endQuiz();
 }
 
+// start the quiz and display the questions to the user
 function startQuiz() {
     // variables
     const length = maineCoonQuiz.length;
-    let userAnswer = "";
-    let currentQuestionIndex = 0;
+    let userAnswer = "",
+        currentQuestionIndex = 0;
 
     // hide start screen and show questions screen
     startScreenDiv.classList.add("hide");
     questionsScreenDiv.classList.add("show");
 
+    // function that handles the display of quetions
     function displayQuestion() {
-        // Check if all questions have been answered
+        // check if all questions have been answered, if so then exit this function and trigger the endQuiz function
         if (currentQuestionIndex >= length) {
-            // If all questions answered, end the quiz
             endQuiz();
             return;
         }
 
         // variables for elements
-        const questionTitle = document.getElementById('question-title');
-        const choicesContainer = document.getElementById('choices');
+        const questionTitle = document.getElementById('question-title'),
+            choicesContainer = document.getElementById('choices');
 
         // display the current question title
         questionTitle.innerText = maineCoonQuiz[currentQuestionIndex].questionTitle;
@@ -102,24 +99,23 @@ function startQuiz() {
 
         // display the current question
         maineCoonQuiz[currentQuestionIndex].choices.forEach((choice, index) => {
-            // create the question elements dynamically
-            const choiceEl = document.createElement("p");
-            const radioEl = document.createElement("input");
+            // create the question elements dynamically (to populate index.html)
+            const choiceEl = document.createElement("p"),
+                radioEl = document.createElement("input");
             radioEl.type = "radio";
             radioEl.name = "answer";
             choiceEl.appendChild(radioEl);
             choiceEl.appendChild(document.createTextNode(choice));
             choicesContainer.appendChild(choiceEl);
 
-            // event listener for answer choice - when a radio button is clicked
+            // event listener for answer choice - when a radio button is clicked by the user
             radioEl.addEventListener('click', function () {
                 // userAnswer variable is populated when a radio button is clicked
                 userAnswer = choice;
-                console.log(userAnswer);
                 // disable all radio buttons after the first click
                 disableRadioButtons();
 
-                // tell the user if correct or not; if the answer is correct then increment the final score, if incorrect then deduct 10 seconds from the timer
+                // alert the user if their answer was correct or not; if the answer is correct then increment the final score, if incorrect then deduct 10 seconds from the timer, if timer reaches 0 or less then trigger the timeRunOut function
                 if (userAnswer === maineCoonQuiz[currentQuestionIndex].answer) {
                     finalScore++;
                     alert("Well done, that was correct!");
@@ -131,23 +127,24 @@ function startQuiz() {
                     }
                 }
 
-                // Move to the next question
+                // increment the variable tracking the current question index
                 currentQuestionIndex++;
-                // Display the next question
+
+                // display the next question
                 displayQuestion();
             });
         });
 
+        // disable all radio buttons after first click
         function disableRadioButtons() {
             const radioButtons = document.querySelectorAll('input[name="answer"]');
-            // disable all radio buttons after first click
             radioButtons.forEach(button => {
                 button.disabled = true;
             });
         }
     }
 
-    // Start displaying questions
+    // start displaying questions
     displayQuestion();
 }
 
@@ -170,14 +167,13 @@ submitButton.addEventListener('click', function () {
     // allow user to enter their initials and store value in variable
     userInitials = document.getElementById('initials').value.trim();
 
-    // Validate user input
+    // validate user input
     if (userInitials === "") {
         alert("Please enter your initials.");
         return;
     }
 
     // store score together with user initials in local storage)
-    // create an object with final score and user initials
     const userEntry = { initial: userInitials, score: finalScore };
 
     // get existing highscores array
@@ -186,7 +182,7 @@ submitButton.addEventListener('click', function () {
     // push new entry to highscores array
     existingHighScoresData.push(userEntry);
 
-    // save updated array back to local storage
+    // save updated array to local storage
     localStorage.setItem('highScores', JSON.stringify(existingHighScoresData));
 
     // navigate to highscores page and pass highScores as a query parameter
